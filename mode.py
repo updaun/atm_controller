@@ -1,10 +1,13 @@
 def confirm_question(message):
-    confirm = input(f"\n{message} (Y/N)\n=> ")
+    confirm = input(f"\n{message} (Y/N)\n=> ").lower()
 
-    if confirm == "y" or confirm == "Y":
+    if confirm == "exit":
+        return None
+
+    if confirm == "y" or confirm == "yes":
         return True
-    elif confirm == "n" or confirm == "N":
+    elif confirm == "n" or confirm == "no":
         return False
     else:
         print("\nPlease choose Y or N.")
-        confirm_question(message)
+        return confirm_question(message)

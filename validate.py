@@ -1,5 +1,4 @@
 from config import *
-from database import Database
 
 
 class PinNumberFormatValidator:
@@ -7,13 +6,18 @@ class PinNumberFormatValidator:
         print(f"\nPlease make PIN NUMBER {PIN_NUMBER_LENGTH} digits.")
 
     def is_vaild(self, pin_number):
-        if not pin_number.isdigit():
-            print("Please enter numbers only.")
+        if pin_number.lower() == "exit":
             return False
-        if len(pin_number) != PIN_NUMBER_LENGTH:
-            self.notice()
-            return False
-        return True
+        else:
+            if not pin_number.isdigit():
+                print("*" * 80)
+                print("\nPlease enter numbers only.\n")
+                print("*" * 80)
+                return False
+            if len(pin_number) != PIN_NUMBER_LENGTH:
+                self.notice()
+                return False
+            return True
 
 
 class CardNumberFormatValidator:
@@ -23,18 +27,15 @@ class CardNumberFormatValidator:
         )
 
     def is_vaild(self, card_number):
-        if not card_number.isdigit():
-            print("Please enter numbers only.")
+        if card_number.lower() == "exit":
             return False
-        if len(card_number) < MIN_CARD_NUMBER_LENGTH:
-            self.notice()
-            return False
-
-        db = Database()
-        data = db.load_database()
-        for user in data:
-            if user.user_id == card_number:
-                print("It's already a registered.")
+        else:
+            if not card_number.isdigit():
+                print("*" * 80)
+                print("\nPlease enter numbers only.\n")
+                print("*" * 80)
                 return False
-
-        return True
+            if len(card_number) < MIN_CARD_NUMBER_LENGTH:
+                self.notice()
+                return False
+            return True

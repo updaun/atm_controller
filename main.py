@@ -1,7 +1,7 @@
-from mode import confirm_question
 from card import insert_card
-from account import create_account
+from account import check_pin_number
 from database import Database
+import time
 
 
 def main():
@@ -11,31 +11,63 @@ def main():
     data = db.load_database()
 
     # welcome
-    print("Hello, Nice to meet you!")
+    print("\nHello, Nice to meet you! Welcome to our ATM Service.")
 
-    # select mode
-    mode = confirm_question("Do you own an account?")
+    # Insert Card
+    card_id = insert_card(db)
+    if card_id is None:
+        main()
+        return None
+    user = db.get_user_from_id(card_id)
 
-    if mode:
-        # Insert Card
-        card_id = insert_card(db)
-        user = db.get_user_from_id(card_id)
-        if user is None:
-            card_id = insert_card(db)
-            user = db.get_user_from_id(card_id)
+    # Check PIN number
+    auth_check = check_pin_number(user)
+
+    if auth_check is None:
+        main()
+        return None
+
+    if auth_check:
+        # See Balance/Deposit/Withdraw
+        while True:
+            mode = input(
+                "\nPlease select the service you want.\n1. Check Balance\t2. Deposit\n3. Withdraw\t\t4. Exit\n=> "
+            )
+            # Exit
+            if mode == "4":
+                break
+
+            # Check Balance
+            elif mode == "1":
+                print("The balance in your account is\n")
+                print(f"{user.get_balance()} dollar")
+
+            # Deposit
+            elif mode == "2":
+                user.deposit()
+                db.save()
+
+            # Withdraw
+            elif mode == "3":
+                user.withdraw()
+                db.save()
+
     else:
-        user = create_account(len(db))
-        data.append(user)
-        db.save()
-
-    # PIN number
-
-    # Select Account
-
-    # See Balance/Deposit/Withdraw
+        print("Due to PIN Number error, Move to Main Screen.")
+        print("3", sep="")
+        time.sleep(1)
+        print("2", sep="")
+        time.sleep(1)
+        print("1", sep="")
+        time.sleep(1)
+        print()
+        main()
 
     # Exit Programs
-    print("Thank you for using our service.")
+    print("*" * 80)
+    print("\nThank you for using our service.\nPlease receive your card.\n")
+    print("*" * 80)
+    main()
 
 
 if __name__ == "__main__":

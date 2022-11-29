@@ -24,15 +24,20 @@ class Database:
             for idx, data in enumerate(self.db):
                 filtered_data = card_number_filter(data.user_id)
                 print(f"{idx+1}. {filtered_data}")
-            select_index = input("\nChoose Your card\n=> ")
-            if int(select_index) < 1:
+            card = input("\nChoose Your card(index or card number)\n=> ")
+            if len(card) >= MIN_CARD_NUMBER_LENGTH:
+                if self.check_user_id(card):
+                    return card
+                else:
+                    return self.get_card_list()
+            if int(card) < 1:
                 print("Please insert number upper then 1.")
-                self.get_card_list()
-            if not select_index.isdigit():
+                return self.get_card_list()
+            if not card.isdigit():
                 print("Please insert number only")
-                self.get_card_list()
-            if int(select_index) <= len(self.db):
-                return self.db[int(select_index) - 1].user_id
+                return self.get_card_list()
+            if int(card) <= len(self.db):
+                return self.db[int(card) - 1].user_id
             else:
                 return None
         else:
@@ -41,8 +46,14 @@ class Database:
             self.db.append(user)
             self.save()
 
-    def get_user_from_id(self, card_id):
+    def check_user_id(self, card_id):
+        for data in self.db:
+            if data.user_id == card_id:
+                return True
+        else:
+            return False
 
+    def get_user_from_id(self, card_id):
         for data in self.db:
             if data.user_id == card_id:
                 return data
@@ -50,14 +61,17 @@ class Database:
             print("Could not find your Account.")
             return None
 
+    def check_unique(self, card_number):
+        for user in self.db:
+            if user.user_id == card_number:
+                print("It's already a registered.")
+                return False
+        else:
+            return True
+
     def save(self):
         with open(DATABASE["DATABASE_DIR"], "wb") as f:
             pickle.dump(self.db, f)
 
     def __len__(self):
         return len(self.db)
-
-
-db = Database()
-data = db.load_database()
-print(data)
