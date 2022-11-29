@@ -172,3 +172,6 @@ poetry.toml
 
 # database(pickle)
 db.pickle
+
+# log(text file)
+log.txt

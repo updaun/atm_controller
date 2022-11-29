@@ -1,14 +1,18 @@
-from card import insert_card
-from account import check_pin_number
-from database import Database
 import time
+from card import insert_card
+from database import Database
+from account import check_pin_number
+from logger import Logger
 
 
 def main():
 
+    # Database
     db = Database()
-
     data = db.load_database()
+
+    # Logger
+    logger = Logger()
 
     # welcome
     print("\nHello, Nice to meet you! Welcome to our ATM Service.")
@@ -35,24 +39,29 @@ def main():
             )
             # Exit
             if mode == "4":
+                logger.logging(action=f"Exit", user=user.user_id)
                 break
 
             # Check Balance
             elif mode == "1":
                 print("The balance in your account is\n")
                 print(f"{user.get_balance()} dollar")
+                logger.logging(action=f"Check Balance", user=user.user_id)
 
             # Deposit
             elif mode == "2":
-                user.deposit()
+                amount = user.deposit()
                 db.save()
+                logger.logging(action=f"Deposit : {amount} dollar", user=user.user_id)
 
             # Withdraw
             elif mode == "3":
-                user.withdraw()
+                amount = user.withdraw()
+                logger.logging(action=f"Withdraw : {amount} dollar", user=user.user_id)
                 db.save()
 
     else:
+        logger.logging(action=f"Error PIN Number {card_id}")
         print("Due to PIN Number error, Move to Main Screen.")
         print("3", sep="")
         time.sleep(1)

@@ -1,4 +1,3 @@
-from config import *
 from account import create_account
 
 

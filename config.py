@@ -1,7 +1,7 @@
-# config
-
 MIN_CARD_NUMBER_LENGTH = 11
 
 PIN_NUMBER_LENGTH = 4
 
 DATABASE = {"DATABASE_DIR": "db.pickle"}
+
+LOGGER = {"LOGGER_DIR": "log.txt"}

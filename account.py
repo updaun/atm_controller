@@ -34,6 +34,7 @@ class UserAccount:
         print("You have been successfully deposited.")
         print("The balance after deposit is\n")
         print(f"{self.balance} dollar")
+        return amount
 
     def withdraw(self):
         amount = input("Please enter the amount you want to withdraw.(dollar)\n=> ")
@@ -51,6 +52,7 @@ class UserAccount:
         print("You have been successfully withdrawn.")
         print("The balance after withdrawal is\n")
         print(f"{self.balance} dollar")
+        return amount
 
     def __str__(self):
         id_index = len(self.user_id)
