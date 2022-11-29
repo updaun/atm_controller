@@ -1,4 +1,4 @@
-from pwinput import pwinput
+from password import pwinput
 from mode import confirm_question
 from validate import PinNumberFormatValidator, CardNumberFormatValidator
 
@@ -36,7 +36,7 @@ def make_new_card_number():
             make_new_card_number()
         return input_card_number
     else:
-        make_new_pin_number()
+        make_new_card_number()
 
 
 def make_new_pin_number():

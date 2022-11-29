@@ -1,7 +1,4 @@
-### Install Requirements
-```
-pip install -r requirements.txt
-```
+# ATM Controller
 
 ### How to test
 ```

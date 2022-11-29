@@ -18,10 +18,12 @@ def main():
 
     if mode:
         # Insert Card
-        card_id = insert_card()
-        # user = get_user(db)
+        card_id = insert_card(db)
+        user = db.get_user_from_id(card_id)
+        if user is None:
+            card_id = insert_card(db)
+            user = db.get_user_from_id(card_id)
     else:
-
         user = create_account(len(db))
         data.append(user)
         db.save()
