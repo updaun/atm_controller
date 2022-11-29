@@ -1,17 +1,30 @@
-from mode import select_mode
+from mode import confirm_question
+from card import insert_card
+from account import create_account
+from database import Database
 
 
 def main():
+
+    db = Database()
+
+    data = db.load_database()
 
     # welcome
     print("Hello, Nice to meet you!")
 
     # select mode
-    mode = select_mode()
+    mode = confirm_question("Do you own an account?")
 
     if mode:
         # Insert Card
-        insert_card()
+        card_id = insert_card()
+        # user = get_user(db)
+    else:
+
+        user = create_account(len(db))
+        data.append(user)
+        db.save()
 
     # PIN number
 

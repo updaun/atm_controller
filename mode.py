@@ -1,11 +1,10 @@
-def select_mode():
+def confirm_question(message):
+    confirm = input(f"\n{message} (Y/N)\n=> ")
 
-    mode = input("\nDo you own an account?(Y / N)\n=> ")
-
-    if mode == "y" or mode == "Y":
+    if confirm == "y" or confirm == "Y":
         return True
-    elif mode == "n" or mode == "N":
+    elif confirm == "n" or confirm == "N":
         return False
     else:
-        print("[Warning] Please choose Y or N.")
-        select_mode()
+        print("\nPlease choose Y or N.")
+        confirm_question(message)
