@@ -42,7 +42,7 @@ class Database:
                 return None
         else:
             print("There is no registered account.\nPlease make your account.")
-            user = create_account(len(self.db))
+            user = create_account(self.db)
             self.db.append(user)
             self.save()
 
